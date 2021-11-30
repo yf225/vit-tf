@@ -7,7 +7,7 @@ export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 
 # Copy this file content to vit.py on GPU node.
 # Run the file:
-python3 vit.py --bits=16 --micro_batch_size=4
+python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
