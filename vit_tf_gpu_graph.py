@@ -17,7 +17,7 @@ cd ./vit-tf
 
 # Copy this file content to vit.py on GPU node.
 # Run the file:
-python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+python3 vit_tf_gpu_graph.py --bits=16 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
