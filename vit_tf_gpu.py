@@ -5,6 +5,11 @@ pip install -U tensorflow-addons
 
 export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 
+cd /fsx/users/willfeng/repos
+rm -rf ./vit-tf || true
+git clone https://github.com/yf225/vit-tf.git
+cd ./vit-tf
+
 # Copy this file content to vit.py on GPU node.
 # Run the file:
 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
@@ -16,7 +21,7 @@ python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 
 import tensorflow as tf
 
-# mixed_precision_policy = "mixed_bfloat16"
+# mixed_precision_policy = "mixed_float16"
 # tf.keras.mixed_precision.set_global_policy(mixed_precision_policy)
 
 import re
@@ -44,7 +49,7 @@ bits = args.bits
 assert bits in [16, 32]
 if bits == 16:
     global_dtype = tf.float16
-    dtype_str = "bfloat16"
+    dtype_str = "float16"
 elif bits == 32:
     global_dtype = tf.float32
     dtype_str = "float32"
