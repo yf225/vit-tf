@@ -63,7 +63,7 @@ assert args.mode in ["eager", "graph"]
 sys.argv = sys.argv[:-3]
 
 num_epochs = 10
-learning_rate = 0.001
+learning_rate = 1e-8
 
 image_size = 224
 patch_size = 16  # Size of the patches to be extract from the input images
