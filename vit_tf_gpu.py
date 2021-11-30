@@ -1,14 +1,18 @@
 # On AWS GPU node
 """
-pip uninstall -y tensorflow
-pip install tensorflow==2.7.0 einops tensorflow_datasets
+docker run -it tensorflow/tensorflow:2.7.0-gpu bash
+
+### In docker:
+apt install -y git
+
+pip install einops tensorflow_datasets matplotlib
 pip install -U tensorflow-addons
 
 export PATH=/usr/local/cuda-11.2/bin:${PATH}
 export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64:${LD_LIBRARY_PATH}
 export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 
-cd /fsx/users/willfeng/repos
+cd ~
 rm -rf ./vit-tf || true
 git clone https://github.com/yf225/vit-tf.git
 cd ./vit-tf
