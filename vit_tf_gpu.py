@@ -1,13 +1,11 @@
 # On AWS GPU node
 """
-conda activate tf2.4  # should have Python 3.8
-
 pip uninstall -y tensorflow
-pip install tensorflow==2.4.4 einops tensorflow_datasets
+pip install tensorflow==2.7.0 einops tensorflow_datasets
 pip install -U tensorflow-addons
 
-export PATH=/usr/local/cuda-11.0/bin:${PATH}
-export LD_LIBRARY_PATH=/usr/local/cuda-11.0/lib64:${LD_LIBRARY_PATH}
+export PATH=/usr/local/cuda-11.2/bin:${PATH}
+export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64:${LD_LIBRARY_PATH}
 export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 
 cd /fsx/users/willfeng/repos
