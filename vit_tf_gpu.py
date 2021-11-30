@@ -1,8 +1,11 @@
 # On AWS GPU node
 """
+pip uninstall -y tensorflow
 pip install tensorflow==2.7.0 einops tensorflow_datasets
 pip install -U tensorflow-addons
 
+export PATH=/usr/local/cuda-11.1/bin:${PATH}
+export LD_LIBRARY_PATH=/usr/local/cuda-11.1/lib64:${LD_LIBRARY_PATH}
 export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 export XLA_FLAGS=--xla_gpu_strict_conv_algorithm_picker=false
 
