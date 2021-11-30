@@ -17,7 +17,7 @@ cd ./vit-tf
 
 # Copy this file content to vit.py on GPU node.
 # Run the file:
-python3 vit_tf_gpu_graph.py --bits=16 --micro_batch_size=4
+python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -48,6 +48,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--bits", type=int)
 parser.add_argument("--micro_batch_size", type=int)
+parser.add_argument("--mode", type=str)
 args = parser.parse_args()
 micro_batch_size = args.micro_batch_size  # batch size per GPU
 bits = args.bits
@@ -58,7 +59,8 @@ if bits == 16:
 elif bits == 32:
     global_dtype = tf.float32
     dtype_str = "float32"
-sys.argv = sys.argv[:-2]
+assert args.mode in ["eager", "graph"]
+sys.argv = sys.argv[:-3]
 
 num_epochs = 10
 learning_rate = 0.001
@@ -318,8 +320,9 @@ def run():
             optimizer=optimizer,
             loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),  # Do we use the same loss in Megatron for ViT?
             metrics=metrics,
+            run_eagerly=(args.mode == "eager"),
         )
-
+        model.run_eagerly = (args.mode == "eager")
 
     # Warm up
     history = model.fit(
