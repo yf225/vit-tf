@@ -236,8 +236,6 @@ def build_model(
     ), "image_size must be a multiple of patch_size"
     x = tf.keras.layers.Input(shape=(image_size_tuple[0], image_size_tuple[1], 3), dtype=global_dtype)
     # Sanity check for dtype
-    print("str(x.dtype.name): ", str(x.dtype.name))
-    print("dtype_str: ", dtype_str)
     assert str(x.dtype.name) == dtype_str
     # Create patches.
     patches = Patches(patch_size, dtype=dtype)(x)
