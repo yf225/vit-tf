@@ -3,7 +3,7 @@
 pip install tensorflow==2.7.0 einops tensorflow_datasets
 pip install -U tensorflow-addons
 
-export TF_XLA_FLAGS=--tf_xla_auto_jit=2
+export TF_XLA_FLAGS="--tf_xla_auto_jit=2 --xla_gpu_strict_conv_algorithm_picker=false"
 
 cd /fsx/users/willfeng/repos
 rm -rf ./vit-tf || true
