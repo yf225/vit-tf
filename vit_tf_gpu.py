@@ -16,6 +16,7 @@ export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 
 cd ~
 rm -rf ./vit-tf || true
+git config --global credential.helper store
 git clone https://github.com/yf225/vit-tf.git
 # enter username and password
 
@@ -69,7 +70,11 @@ elif bits == 32:
     global_dtype = tf.float32
     dtype_str = "float32"
 assert args.mode in ["eager", "graph"]
-sys.argv = sys.argv[:-4]
+new_argv = []
+for argv in sys.argv:
+    if not argv.startswith("--"):
+        new_argv.append(argv)
+sys.argv = new_argv
 
 num_epochs = 10
 learning_rate = 1e-8
