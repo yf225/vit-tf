@@ -26,7 +26,7 @@ cd ./vit-tf
 
 python3 vit_tf_gpu.py --bits=16 --mode=graph --micro_batch_size=4
 
-python3 vit_tf_gpu.py --bits=16 --mode=graph --visible_device_id=0 --micro_batch_size=4
+python3 vit_tf_gpu.py --bits=16 --mode=eager --visible_device_id=0 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -375,7 +375,7 @@ def run():
         callbacks=[],
     )
     second_epoch_group_time = time.time() - start_time
-    print("bits: {}, micro_batch_size: {}, time per step: {:.3f}s".format(bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
+    print("bits: {}, micro_batch_size: {}, time per step (s): {:.3f}".format(bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
 
     return history
 
