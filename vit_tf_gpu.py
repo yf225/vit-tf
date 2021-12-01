@@ -17,9 +17,10 @@ rm -rf ./vit-tf || true
 git clone https://github.com/yf225/vit-tf.git
 cd ./vit-tf
 
-# Copy this file content to vit.py on GPU node.
-# Run the file:
 python3 vit_tf_gpu.py --bits=16 --mode=graph --micro_batch_size=4
+
+echo $CUDA_VISIBLE_DEVICES
+python3 vit_tf_gpu.py --bits=16 --mode=graph --visible_device_id=x --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
