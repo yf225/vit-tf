@@ -341,8 +341,8 @@ def run():
 
     train_examples = np.zeros(shape=(num_examples, *input_shape), dtype=np.float32).astype(global_dtype.as_numpy_dtype)
     train_labels = np.random.randint(0, num_classes, size=(num_examples, 1))
-    train_dataset = tf.data.Dataset.from_tensor_slices((train_examples, train_labels))
-    train_dataset = train_dataset.batch(global_batch_size).repeat(10).prefetch(2)
+    # See https://keras.io/guides/distributed_training/ for how to set batch size
+    train_dataset = tf.data.Dataset.from_tensor_slices((train_examples, train_labels)).batch(global_batch_size).repeat(10).prefetch(2)
 
     with strategy_scope: # creating the model in the TPUStrategy scope means we will train the model on the TPU
         model = build_model(
