@@ -288,12 +288,14 @@ def run():
 
     if args.visible_device_id != -1:
         strategy = tf.distribute.OneDeviceStrategy(device="/gpu:{}".format(args.visible_device_id))
+        num_devices = 1
     else:
         strategy = tf.distribute.MirroredStrategy()
+        num_devices = strategy.num_replicas_in_sync
 
     strategy_scope = strategy.scope()
 
-    global_batch_size = micro_batch_size * strategy.num_replicas_in_sync
+    global_batch_size = micro_batch_size * num_devices
 
     # Input data
     num_examples = global_batch_size * 2
