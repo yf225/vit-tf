@@ -23,9 +23,9 @@ git clone https://github.com/yf225/vit-tf.git
 
 cd ./vit-tf
 
-TF_CUDNN_USE_AUTOTUNE=1 TF_XLA_FLAGS=--tf_xla_auto_jit=2 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+TF_XLA_FLAGS=--tf_xla_auto_jit=2 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 
-TF_CUDNN_USE_AUTOTUNE=0 TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -301,16 +301,15 @@ def run():
     global_batch_size = micro_batch_size * num_devices
 
     # Input data
-    num_examples = global_batch_size * 2
+    num_examples = global_batch_size
     num_steps = num_examples / global_batch_size
     num_classes = 1000  # Default in Megatron ViT
     input_shape = (image_size, image_size, 3)
 
-    # rng = np.random.default_rng()
     train_examples = np.zeros(shape=(num_examples, *input_shape), dtype=np.float32).astype(global_dtype.as_numpy_dtype)
     train_labels = np.random.randint(0, num_classes, size=(num_examples, 1))
-    # train_dataset = tf.data.Dataset.from_tensor_slices((train_examples, train_labels))
-    # train_dataset = train_dataset.batch(global_batch_size).repeat(10).prefetch(2)
+    train_dataset = tf.data.Dataset.from_tensor_slices((train_examples, train_labels))
+    train_dataset = train_dataset.batch(global_batch_size).repeat(10).prefetch(2)
 
     with strategy_scope:
         model = build_model(
