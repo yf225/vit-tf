@@ -1,6 +1,6 @@
 # On AWS GPU node
 """
-docker run -it tensorflow/tensorflow:2.7.0-gpu bash
+docker run -it --gpus all tensorflow/tensorflow:2.7.0-gpu bash
 
 ### In docker:
 apt install -y git
@@ -19,7 +19,7 @@ cd ./vit-tf
 
 # Copy this file content to vit.py on GPU node.
 # Run the file:
-python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+python3 vit_tf_gpu.py --bits=16 --mode=graph --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -51,6 +51,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--bits", type=int)
 parser.add_argument("--micro_batch_size", type=int)
 parser.add_argument("--mode", type=str)
+parser.add_argument("--visible_device_id", type=int, default=-1)
 args = parser.parse_args()
 micro_batch_size = args.micro_batch_size  # batch size per GPU
 bits = args.bits
@@ -285,7 +286,10 @@ def run():
     # profiler_port = 9012
     # tf.profiler.experimental.server.start(profiler_port)
 
-    strategy = tf.distribute.MirroredStrategy()
+    if args.visible_device_id != -1:
+        strategy = tf.distribute.OneDeviceStrategy(device="/gpu:{}".format(args.visible_device_id))
+    else:
+        strategy = tf.distribute.MirroredStrategy()
 
     strategy_scope = strategy.scope()
 
