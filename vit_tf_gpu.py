@@ -5,6 +5,8 @@ docker run -it --gpus all tensorflow/tensorflow:2.7.0-gpu bash
 ### In docker:
 apt install -y git
 
+# Then
+
 pip install einops tensorflow_datasets matplotlib
 pip install -U tensorflow-addons
 
@@ -15,12 +17,15 @@ export TF_XLA_FLAGS=--tf_xla_auto_jit=2
 cd ~
 rm -rf ./vit-tf || true
 git clone https://github.com/yf225/vit-tf.git
+# enter username and password
+
+# Then
+
 cd ./vit-tf
 
 python3 vit_tf_gpu.py --bits=16 --mode=graph --micro_batch_size=4
 
-echo $CUDA_VISIBLE_DEVICES
-python3 vit_tf_gpu.py --bits=16 --mode=graph --visible_device_id=x --micro_batch_size=4
+python3 vit_tf_gpu.py --bits=16 --mode=graph --visible_device_id=0 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -64,7 +69,7 @@ elif bits == 32:
     global_dtype = tf.float32
     dtype_str = "float32"
 assert args.mode in ["eager", "graph"]
-sys.argv = sys.argv[:-3]
+sys.argv = sys.argv[:-4]
 
 num_epochs = 10
 learning_rate = 1e-8
