@@ -23,9 +23,9 @@ git clone https://github.com/yf225/vit-tf.git
 
 cd ./vit-tf
 
-TF_XLA_FLAGS=--tf_xla_auto_jit=2 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+TF_CUDNN_USE_AUTOTUNE=1 TF_XLA_FLAGS=--tf_xla_auto_jit=2 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 
-TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+TF_CUDNN_USE_AUTOTUNE=0 TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -80,6 +80,9 @@ patch_size = 16  # Size of the patches to be extract from the input images
 num_patches = (image_size // patch_size) ** 2
 
 from typing import Tuple
+
+print(os.environ["TF_XLA_FLAGS"])
+raise Exception
 
 class Patches(layers.Layer):
     def __init__(self, patch_size, dtype):
@@ -365,7 +368,7 @@ def run():
         callbacks=[],
     )
     second_epoch_group_time = time.time() - start_time
-    print("bits: {}, micro_batch_size: {}, time per step (s): {:.3f}".format(bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
+    print("flag: {}, bits: {}, micro_batch_size: {}, median time per step (s): {:.3f}".format(os.environ["TF_XLA_FLAGS"], bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
 
     return history
 
