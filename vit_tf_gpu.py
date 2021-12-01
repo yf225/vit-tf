@@ -81,9 +81,6 @@ num_patches = (image_size // patch_size) ** 2
 
 from typing import Tuple
 
-print(os.environ["TF_XLA_FLAGS"])
-raise Exception
-
 class Patches(layers.Layer):
     def __init__(self, patch_size, dtype):
         super(Patches, self).__init__()
