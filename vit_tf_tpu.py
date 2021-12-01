@@ -334,7 +334,7 @@ def run():
     global_batch_size = micro_batch_size * strategy.num_replicas_in_sync
 
     # Input data
-    num_examples = global_batch_size
+    num_examples = global_batch_size * 2
     num_steps = num_examples / global_batch_size
     num_classes = 1000  # Default in Megatron ViT
     input_shape = (image_size, image_size, 3)

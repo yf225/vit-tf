@@ -23,9 +23,11 @@ git clone https://github.com/yf225/vit-tf.git
 
 cd ./vit-tf
 
-TF_XLA_FLAGS=--tf_xla_auto_jit=2 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+CUDA_VISIBLE_DEVICES=0,1,2,3 TF_XLA_FLAGS=--tf_xla_auto_jit=2 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 
-TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+CUDA_VISIBLE_DEVICES=0,1,2,3 TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
+
+CUDA_VISIBLE_DEVICES=0 TF_XLA_FLAGS=--tf_xla_auto_jit=-1 python3 vit_tf_gpu.py --bits=16 --micro_batch_size=4
 """
 
 # -*- coding: utf-8 -*-
@@ -301,7 +303,7 @@ def run():
     global_batch_size = micro_batch_size * num_devices
 
     # Input data
-    num_examples = global_batch_size
+    num_examples = global_batch_size * 2
     num_steps = num_examples / global_batch_size
     num_classes = 1000  # Default in Megatron ViT
     input_shape = (image_size, image_size, 3)
