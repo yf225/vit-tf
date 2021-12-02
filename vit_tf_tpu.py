@@ -1,4 +1,4 @@
-# On TPU VM (not alpha)
+# On TPU VM (not alpha!!!!)
 """
 export PYTHONPATH="$PYTHONPATH:/usr/share/models"
 export TF_XLA_FLAGS="--tf_xla_enable_xla_devices"
