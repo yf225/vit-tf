@@ -1,7 +1,6 @@
 # On TPU VM (not alpha!!!!)
 """
 export PYTHONPATH="$PYTHONPATH:/usr/share/models"
-export TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2"
 export TPU_NAME=tpu-test
 
 cd ~
@@ -9,7 +8,7 @@ rm -rf ./vit-tf || true
 git clone https://github.com/yf225/vit-tf.git
 cd ./vit-tf
 
-python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
+TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
 """
 
 # !pip install -U tensorflow-addons
