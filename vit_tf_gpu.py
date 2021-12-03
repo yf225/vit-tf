@@ -366,7 +366,7 @@ def run():
         callbacks=[],
     )
     second_epoch_group_time = time.time() - start_time
-    print("flag: {}, bits: {}, micro_batch_size: {}, median time per step (s): {:.3f}".format(os.environ["TF_XLA_FLAGS"], bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
+    print("flag: {}, bits: {}, micro_batch_size: {}, time per step (s): {:.3f}".format(os.environ["TF_XLA_FLAGS"], bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
 
     return history
 

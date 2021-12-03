@@ -1,7 +1,8 @@
 # On TPU VM (not alpha!!!!)
 """
 export PYTHONPATH="$PYTHONPATH:/usr/share/models"
-export TF_XLA_FLAGS="--tf_xla_enable_xla_devices"
+export TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2"
+export TPU_NAME=tpu-test
 
 cd ~
 rm -rf ./vit-tf || true
@@ -397,7 +398,7 @@ def run():
         callbacks=[],
     )
     second_epoch_group_time = time.time() - start_time
-    print("bits: {}, micro_batch_size: {}, time per step: {:.3f}s".format(bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
+    print("bits: {}, micro_batch_size: {}, time per step (s): {:.3f}".format(bits, micro_batch_size, (second_epoch_group_time - first_epoch_group_time) / delta / num_steps))
 
     return history
 
