@@ -1,7 +1,8 @@
 # On TPU VM (not alpha!!!!)
 """
 export PYTHONPATH="$PYTHONPATH:/usr/share/models"
-export TPU_NAME=tpu-test
+export USERNAME=$(whoami)
+export TPU_NAME=tpu-test-${USERNAME//_}
 
 cd ~
 rm -rf ./vit-tf || true
