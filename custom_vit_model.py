@@ -148,7 +148,7 @@ class TransformerBlock(tf.keras.layers.Layer):
         return x + y, weights
 
 def build_model(
-    image_size_tuple: Tuple[int, int],
+    image_size: int,
     patch_size: int,
     num_layers: int,
     hidden_size: int,
@@ -180,10 +180,8 @@ def build_model(
         representation_size: The size of the representation prior to the
             classification layer. If None, no Dense layer is inserted.
     """
-    assert (image_size_tuple[0] % patch_size == 0) and (
-        image_size_tuple[1] % patch_size == 0
-    ), "image_size must be a multiple of patch_size"
-    x = tf.keras.layers.Input(shape=(image_size_tuple[0], image_size_tuple[1], 3), dtype=dtype)
+    assert image_size % patch_size == 0, "image_size must be a multiple of patch_size"
+    x = tf.keras.layers.Input(shape=(image_size, image_size, 3), dtype=dtype)
     # Sanity check for dtype
     assert str(x.dtype.name) == dtype_str
     # Create patches.

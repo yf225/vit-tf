@@ -147,7 +147,7 @@ def run():
 
     with strategy_scope: # creating the model in the TPUStrategy scope means we will train the model on the TPU
         model = build_model(
-            image_size_tuple=(image_size, image_size),
+            image_size=image_size,
             patch_size=patch_size,
             num_layers=num_layers,
             hidden_size=hidden_size,

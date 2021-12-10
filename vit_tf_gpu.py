@@ -114,7 +114,7 @@ def run():
 
     with strategy_scope:
         model = build_model(
-            image_size_tuple=(image_size, image_size),
+            image_size=image_size,
             patch_size=patch_size,
             num_layers=num_layers,
             hidden_size=hidden_size,
