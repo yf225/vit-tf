@@ -157,6 +157,7 @@ def run():
             classes=num_classes,
             dropout=0.,
             dtype=global_dtype,
+            dtype_str=dtype_str,
         )
         # print(model.summary())
         optimizer = tf.optimizers.Adam(learning_rate=learning_rate)

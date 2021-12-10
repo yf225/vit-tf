@@ -157,6 +157,7 @@ def build_model(
     classes: int,
     dropout: float,
     dtype,
+    dtype_str,
     activation=None,
     include_top=True,
     representation_size=None,
