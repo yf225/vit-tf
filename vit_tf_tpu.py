@@ -113,7 +113,6 @@ learning_rate = 0.001
 
 image_size = 224
 patch_size = 16  # Size of the patches to be extract from the input images
-num_patches = (image_size // patch_size) ** 2
 
 
 """## Training

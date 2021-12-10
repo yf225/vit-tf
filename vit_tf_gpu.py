@@ -83,7 +83,6 @@ learning_rate = 1e-8
 
 image_size = 224
 patch_size = 16  # Size of the patches to be extract from the input images
-num_patches = (image_size // patch_size) ** 2
 
 """## Training
 Actually train the model. The first epoch will be quite a bit slower as we must XLA-compile the execution graph and load the data.

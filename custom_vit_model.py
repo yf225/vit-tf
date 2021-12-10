@@ -189,6 +189,7 @@ def build_model(
     # Create patches.
     patches = Patches(patch_size, dtype=dtype)(x)
     # Encode patches.
+    num_patches = (image_size // patch_size) ** 2
     y = PatchEncoder(num_patches, hidden_size, dtype=dtype)(patches)
 
     for n in range(num_layers):
