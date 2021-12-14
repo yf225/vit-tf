@@ -172,10 +172,10 @@ def run():
 
     # Warm up
     history = model.fit(
-        # train_examples,
-        # train_labels,
-        train_dataset,
-        # batch_size=global_batch_size,
+        train_examples,
+        train_labels,
+        # train_dataset,
+        batch_size=global_batch_size,
         epochs=5,
         callbacks=[],
     )
