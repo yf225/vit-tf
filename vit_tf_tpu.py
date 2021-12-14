@@ -130,6 +130,7 @@ def run():
     strategy = distribute_utils.get_distribution_strategy(
         distribution_strategy="tpu",
         tpu_address=os.environ["TPU_NAME"])
+    assert strategy.num_replicas_in_sync == 8
 
     strategy_scope = distribute_utils.get_strategy_scope(strategy)
 
@@ -171,10 +172,10 @@ def run():
 
     # Warm up
     history = model.fit(
-        train_examples,
-        train_labels,
-        # train_dataset,
-        batch_size=global_batch_size,
+        # train_examples,
+        # train_labels,
+        train_dataset,
+        # batch_size=global_batch_size,
         epochs=5,
         callbacks=[],
     )
