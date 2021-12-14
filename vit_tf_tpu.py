@@ -12,6 +12,8 @@ cd ./vit-tf
 # Max fusion
 TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
 
+TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=96
+
 # No fusion
 TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=-1 --tf_xla_max_cluster_size=1" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
 """
@@ -127,7 +129,6 @@ def run():
 
     strategy = distribute_utils.get_distribution_strategy(
         distribution_strategy="tpu",
-        num_gpus=1,  # How many GPUs to use at each worker with the DistributionStrategies API. The default is 1.
         tpu_address=os.environ["TPU_NAME"])
 
     strategy_scope = distribute_utils.get_strategy_scope(strategy)
