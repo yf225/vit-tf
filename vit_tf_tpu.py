@@ -10,9 +10,9 @@ git clone https://github.com/yf225/vit-tf.git
 cd ./vit-tf
 
 # Max fusion
-TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
-
 TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=96
+
+TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=2" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
 
 # No fusion
 TF_XLA_FLAGS="--tf_xla_enable_xla_devices --tf_xla_auto_jit=-1 --tf_xla_max_cluster_size=1" python3 vit_tf_tpu.py --bits=16 --micro_batch_size=4
