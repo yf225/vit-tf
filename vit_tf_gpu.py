@@ -79,7 +79,7 @@ for argv in sys.argv:
 sys.argv = new_argv
 
 num_epochs = 10
-learning_rate = 1e-8
+learning_rate = 0.
 
 image_size = 224
 patch_size = 16  # Size of the patches to be extract from the input images
@@ -108,7 +108,7 @@ def run():
     input_shape = (image_size, image_size, 3)
 
     train_examples = np.zeros(shape=(num_examples, *input_shape), dtype=np.float32).astype(global_dtype.as_numpy_dtype)
-    train_labels = np.random.randint(0, num_classes, size=(num_examples, 1))
+    train_labels = np.zeros(shape=(num_examples, 1))
     # See https://keras.io/guides/distributed_training/ for how to set batch size
     train_dataset = tf.data.Dataset.from_tensor_slices((train_examples, train_labels)).batch(global_batch_size).repeat(10).prefetch(2)
 
@@ -130,7 +130,7 @@ def run():
         metrics = []
         model.compile(
             optimizer=optimizer,
-            loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),  # Do we use the same loss in Megatron for ViT?
+            loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
             metrics=metrics,
         )
 

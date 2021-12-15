@@ -36,7 +36,7 @@ class PatchEncoder(layers.Layer):
         super(PatchEncoder, self).__init__()
         self.num_patches = num_patches
         self.global_dtype = dtype
-        self.projection = layers.Dense(units=hidden_size, dtype=self.global_dtype)
+        self.projection = layers.Dense(units=hidden_size, dtype=self.global_dtype, kernel_initializer='zeros', bias_initializer='zeros')
         self.position_embedding = layers.Embedding(
             input_dim=num_patches, output_dim=hidden_size, dtype=self.global_dtype
         )
@@ -61,10 +61,10 @@ class MultiHeadSelfAttention(tf.keras.layers.Layer):
             )
         self.hidden_size = hidden_size
         self.projection_dim = hidden_size // num_heads
-        self.query_dense = tf.keras.layers.Dense(hidden_size, name="query", dtype=self.global_dtype)
-        self.key_dense = tf.keras.layers.Dense(hidden_size, name="key", dtype=self.global_dtype)
-        self.value_dense = tf.keras.layers.Dense(hidden_size, name="value", dtype=self.global_dtype)
-        self.combine_heads = tf.keras.layers.Dense(hidden_size, name="out", dtype=self.global_dtype)
+        self.query_dense = tf.keras.layers.Dense(hidden_size, name="query", dtype=self.global_dtype, kernel_initializer='zeros', bias_initializer='zeros')
+        self.key_dense = tf.keras.layers.Dense(hidden_size, name="key", dtype=self.global_dtype, kernel_initializer='zeros', bias_initializer='zeros')
+        self.value_dense = tf.keras.layers.Dense(hidden_size, name="value", dtype=self.global_dtype, kernel_initializer='zeros', bias_initializer='zeros')
+        self.combine_heads = tf.keras.layers.Dense(hidden_size, name="out", dtype=self.global_dtype, kernel_initializer='zeros', bias_initializer='zeros')
 
     def attention(self, query, key, value):
         score = tf.matmul(query, key, transpose_b=True)
@@ -116,6 +116,8 @@ class TransformerBlock(tf.keras.layers.Layer):
                     self.mlp_dim,
                     name=f"{self.name}/Dense_0",
                     dtype=self.global_dtype,
+                    kernel_initializer='zeros',
+                    bias_initializer='zeros',
                 ),
                 tf.keras.layers.Lambda(
                     lambda x: tf.keras.activations.gelu(x, approximate=False)
@@ -125,7 +127,7 @@ class TransformerBlock(tf.keras.layers.Layer):
                     lambda x: tfa.activations.gelu(x, approximate=False)
                 ),
                 tf.keras.layers.Dropout(self.dropout, dtype=self.global_dtype),
-                tf.keras.layers.Dense(input_shape[-1], name=f"{self.name}/Dense_1", dtype=self.global_dtype),
+                tf.keras.layers.Dense(input_shape[-1], name=f"{self.name}/Dense_1", dtype=self.global_dtype, kernel_initializer='zeros', bias_initializer='zeros'),
                 tf.keras.layers.Dropout(self.dropout, dtype=self.global_dtype),
             ],
             name="MlpBlock_3",
@@ -204,10 +206,10 @@ def build_model(
     y = tf.keras.layers.Lambda(lambda v: v[:, 0], name="ExtractToken")(y)
     if representation_size is not None:
         y = tf.keras.layers.Dense(
-            representation_size, name="pre_logits", activation="tanh", dtype=dtype
+            representation_size, name="pre_logits", activation="tanh", dtype=dtype, kernel_initializer='zeros', bias_initializer='zeros'
         )(y)
     if include_top:
-        top_dense = tf.keras.layers.Dense(classes, name="head", activation=activation, dtype=dtype)
+        top_dense = tf.keras.layers.Dense(classes, name="head", activation=activation, dtype=dtype, kernel_initializer='zeros', bias_initializer='zeros')
         y = top_dense(y)
         # Sanity check for dtype
         assert str(y.dtype.name) == dtype_str
